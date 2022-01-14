@@ -1,5 +1,5 @@
 # AdventOfRust2021
-Advent of Code 2021 with Rust solutions. Learning Rust!
+[Advent of Code 2021](https://adventofcode.com/2021/) with Rust solutions. Learning Rust!
 
 ```
 rustc --version
