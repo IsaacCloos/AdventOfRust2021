@@ -5,3 +5,6 @@
 rustc --version
 rustc 1.58.0 (02072b482 2022-01-11)
 ```
+| Day | Part 1 | Part 2 |
+| :-: | :-: | :-: |
+| one |  |  |
