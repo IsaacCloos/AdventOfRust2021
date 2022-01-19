@@ -11,4 +11,4 @@ Legend [^1][^2][^3]
 
 | Day | Title | Part 1 | Part 2 | Notes |
 | :- | :- | :-: | :-: | -: |
-| **One** | [Sonar Sweep](https://adventofcode.com/2021/day/1) | ✅ | 💬 | [input.txt](https://adventofcode.com/2021/day/1/input) |
+| **One** | [Sonar Sweep](https://adventofcode.com/2021/day/1) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/1/input) |
