@@ -11,5 +11,11 @@ fn main() {
 
     let measured_increases = sonar_tools::measure_increases(&measurements);
 
-    println!("{measured_increases}")
+    println!("PART 1: {measured_increases}");
+
+    let windowed_measurements = sonar_tools::convert_measurements_to_sliding_window(&measurements, 3);
+
+    let windowed_measured_increases = sonar_tools::measure_increases(&windowed_measurements);
+
+    println!("PART 2: {windowed_measured_increases}");
 }

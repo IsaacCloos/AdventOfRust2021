@@ -1,5 +1,5 @@
 // https://doc.rust-lang.org/book/ch12-02-reading-a-file.html
-use std::{process::exit, fs};
+use std::{fs, process::exit};
 
 /// Convert line delimited list of numbers to vector of numbers
 pub fn path_to_veci32(input_path: &str) -> Vec<i32> {
@@ -41,4 +41,26 @@ pub fn measure_increases(measurements: &Vec<i32>) -> i32 {
     }
 
     measurement_increases
+}
+
+// PART 2
+// TODO: annotate and include references 
+pub fn convert_measurements_to_sliding_window(
+    measurements: &Vec<i32>,
+    window_size: usize,
+) -> Vec<i32> {
+    let mut windowed_measurements = Vec::new();
+
+
+    // suboptimal sliding window solution?
+    for i in 0..measurements.len() {
+        if i + window_size <= measurements.len() {
+            windowed_measurements.push(0);
+            for n in i..i + window_size {
+                windowed_measurements[i] += measurements[n]
+            }
+        }
+    }
+
+    windowed_measurements
 }
