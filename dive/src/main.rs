@@ -1,3 +1,5 @@
+mod dive_tools;
+
 fn main() {
-    println!("Hello, world!");
+    dive_tools::print_name("Isaac")
 }
