@@ -55,7 +55,9 @@ pub fn convert_measurements_to_sliding_window(
     // suboptimal sliding window solution?
     for i in 0..measurements.len() {
         // "Stop when there aren't enough measurements left to create a new three-measurement sum."
-        if i + window_size > measurements.len() { break }
+        if i + window_size > measurements.len() {
+            break;
+        }
 
         // add to-be referenced index in the returned vector
         windowed_measurements.push(0);

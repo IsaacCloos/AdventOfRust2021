@@ -4,7 +4,7 @@ mod sonar_tools;
 
 // https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html#constants
 // [amature take] constants are free!
-const INPUT_PATH: &str = "input.txt";
+const INPUT_PATH: &str = "input1.txt";
 
 fn main() {
     let measurements = sonar_tools::path_to_veci32(INPUT_PATH);
