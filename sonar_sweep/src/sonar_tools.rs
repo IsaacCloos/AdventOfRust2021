@@ -44,21 +44,23 @@ pub fn measure_increases(measurements: &Vec<i32>) -> i32 {
 }
 
 // PART 2
-// TODO: annotate and include references 
+/// find average of values in a sliding window of specified size
 pub fn convert_measurements_to_sliding_window(
     measurements: &Vec<i32>,
     window_size: usize,
 ) -> Vec<i32> {
+    // https://dev.to/brunooliveira/learning-rust-understanding-vectors-2ep4
     let mut windowed_measurements = Vec::new();
-
 
     // suboptimal sliding window solution?
     for i in 0..measurements.len() {
-        if i + window_size <= measurements.len() {
-            windowed_measurements.push(0);
-            for n in i..i + window_size {
-                windowed_measurements[i] += measurements[n]
-            }
+        // "Stop when there aren't enough measurements left to create a new three-measurement sum."
+        if i + window_size > measurements.len() { break }
+
+        // add to-be referenced index in the returned vector
+        windowed_measurements.push(0);
+        for n in i..i + window_size {
+            windowed_measurements[i] += measurements[n]
         }
     }
 
