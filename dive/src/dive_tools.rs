@@ -4,9 +4,14 @@ use std::fs;
 
 // https://doc.rust-lang.org/rust-by-example/custom_types/structs.html
 #[derive(Debug)]
-pub struct DiveCommand(DiveDirection, i32);
+pub struct DiveCommand(pub DiveDirection, pub i32);
 
 // https://doc.rust-lang.org/rust-by-example/conversion/from_into.html
+/// interpret a space single delimited string between a valid dive command and an integer defining distance
+/// acceptable commands:
+/// forward
+/// up
+/// down
 impl From<&str> for DiveCommand {
     fn from(item: &str) -> Self {
         let command_parts = item.split_whitespace().collect::<Vec<&str>>();
@@ -41,7 +46,8 @@ pub enum DiveDirection {
 pub fn parse_dive_instructions_file(input_path: &str) -> Vec<DiveCommand> {
     fs::read_to_string(input_path)
         .expect(input_path)
-        .split("\n")
-        .map(DiveCommand::from)
-        .collect()
+        .trim() // clean end of file
+        .split("\n") // split on new lines
+        .map(DiveCommand::from) // cool syntax for mapping vector into DiveCommand tuple struct
+        .collect() // convert (cast ??) iterator to specified shape of the return for this function
 }
