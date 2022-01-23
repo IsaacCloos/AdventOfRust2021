@@ -1,7 +1,7 @@
 mod dive_tools;
 use dive_tools::{parse_dive_instructions_file, DiveDirection};
 
-const INPUT_FILE: &str = "input2.txt";
+const INPUT_FILE: &str = "input.txt";
 
 fn main() {
     // PART ONE
