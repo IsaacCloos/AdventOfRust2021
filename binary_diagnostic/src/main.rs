@@ -1,6 +1,10 @@
-// for each binary number in the input, find two new binary numbers (gamma, epsilon)
-// gamma rate * epsilon rate = power consumption
+use crate::diagnostic_tools::DiagnosticReportResult;
+mod diagnostic_tools;
+
+const INPUT_PATH: &str = "input.txt";
 
 fn main() {
-    println!("Hello, world!");
+    let diagnostic_report_results = DiagnosticReportResult::from(INPUT_PATH);
+
+    println!("{}", diagnostic_report_results.get_power_consumption())
 }

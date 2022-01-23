@@ -13,4 +13,4 @@ Legend [^1][^2][^3]
 | :- | :- | :-: | :-: | -: |
 | **One** | [Sonar Sweep](https://adventofcode.com/2021/day/1) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/1/input) |
 | **Two** | [Dive!](https://adventofcode.com/2021/day/2) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/2/input) |
-| **Three** | [Binary Diagnostic](https://adventofcode.com/2021/day/3) | 💬 |  | [input.txt](https://adventofcode.com/2021/day/3/input) |
+| **Three** | [Binary Diagnostic](https://adventofcode.com/2021/day/3) | ✅ |  | [input.txt](https://adventofcode.com/2021/day/3/input) |
