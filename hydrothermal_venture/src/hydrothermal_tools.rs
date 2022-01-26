@@ -28,6 +28,16 @@ impl VentLine {
     pub fn has_straight_line(&self) -> bool {
         self.start.0 == self.end.0 || self.start.1 == self.end.1
     }
+
+    pub fn get_straight_line(&self) -> Option<(i32, i32)> {
+        if self.start.0 == self.end.0 {
+            Some((self.start.1, self.end.1))
+        } else if self.start.1 == self.end.1 {
+            Some((self.start.0, self.end.0))
+        } else {
+            None
+        }
+    }
 }
 
 pub fn import_hydrothermal_report(file_path: &str) -> Vec<String> {
