@@ -29,6 +29,7 @@ impl VentLine {
         self.start.0 == self.end.0 || self.start.1 == self.end.1
     }
 
+    // shame this doesn't have utility, still good Option practice
     pub fn get_straight_line(&self) -> Option<(i32, i32)> {
         if self.start.0 == self.end.0 {
             Some((self.start.1, self.end.1))
