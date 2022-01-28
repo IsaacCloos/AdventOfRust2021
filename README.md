@@ -9,7 +9,7 @@ Legend [^1][^2][^3]
 [^2]: 💬 = in progress
 [^3]: 🆘 = given up
 
-| Day | Title | Part 1 | Part 2 | Input File(s) |
+| Day | Title | Part 1 | Part 2 | Input File |
 | :- | :- | :-: | :-: | -: |
 | **One** | [Sonar Sweep](https://adventofcode.com/2021/day/1) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/1/input) |
 | **Two** | [Dive!](https://adventofcode.com/2021/day/2) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/2/input) |
