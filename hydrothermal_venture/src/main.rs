@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 mod hydrothermal_tools;
 
-const FILE_PATH: &str = "input_test.txt";
+const FILE_PATH: &str = "input.txt";
 
 fn main() {
     let vent_lines_report = import_hydrothermal_report(FILE_PATH);
@@ -12,9 +12,28 @@ fn main() {
 
     let vent_lines: Vec<VentLine> = vent_lines_report.iter().map(VentLine::from).collect();
 
+    for vent_line in vent_lines {
+        match vent_line.get_line_coordinates() {
+            Some(line_coordinates) => {
+                for point in line_coordinates {
+                    if straight_vent_map.contains_key(&point) {
+                        *straight_vent_map.get_mut(&point).unwrap() += 1;
+                    } else {
+                        straight_vent_map.insert(point, 1);
+                    }
+                }
+            }
+            None => {
+                // do nothing
+            }
+        }
+    }
+
     let numbers_greater_than_2 = straight_vent_map.iter().filter(|x| x.1 >= &2).count();
-    println!("{numbers_greater_than_2}")
+    println!("{numbers_greater_than_2}");
 }
+
+// 3990
 
 // brutal logic chain to solve part 1
 // for vent_line in vent_lines {
