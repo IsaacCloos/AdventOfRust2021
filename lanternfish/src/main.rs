@@ -1,7 +1,7 @@
 use std::fs;
 
-const INPUT_PATH: &str = "input.txt";
-const DAYS_PASSED: i32 = 80;
+const INPUT_PATH: &str = "input_test.txt";
+const DAYS_PASSED: i32 = 256;
 
 fn main() {
     let mut lanterfish = get_lanternfish_input(INPUT_PATH);
@@ -22,7 +22,8 @@ fn main() {
         println!("processing day: {num}")
     }
 
-    println!("{}", lanterfish.len());
+    assert_eq!(26984457539, lanterfish.len());
+    // println!("{}", lanterfish.len());
 }
 
 fn get_lanternfish_input(input_path: &str) -> Vec<u8> {
