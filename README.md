@@ -7,7 +7,7 @@ Legend [^1][^2][^3]
 
 [^1]: ✅ = accepted
 [^2]: 💬 = in progress
-[^3]: 🆘 = given up
+[^3]: 🆘 = needed advice
 
 | Day | Title | Part 1 | Part 2 | Input File |
 | :- | :- | :-: | :-: | -: |
@@ -16,4 +16,4 @@ Legend [^1][^2][^3]
 | **Three** | [Binary Diagnostic](https://adventofcode.com/2021/day/3) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/3/input) |
 | **Four** | [Giant Squid](https://adventofcode.com/2021/day/4) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/4/input) |
 | **Five** | [Hydrothermal Venture](https://adventofcode.com/2021/day/5) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/5/input) |
-| **Six** | [Lanternfish](https://adventofcode.com/2021/day/6) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/6/input) |
+| **Six** | [Lanternfish](https://adventofcode.com/2021/day/6) | ✅ | 🆘 | [input.txt](https://adventofcode.com/2021/day/6/input) |
