@@ -16,4 +16,4 @@ Legend [^1][^2][^3]
 | **Three** | [Binary Diagnostic](https://adventofcode.com/2021/day/3) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/3/input) |
 | **Four** | [Giant Squid](https://adventofcode.com/2021/day/4) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/4/input) |
 | **Five** | [Hydrothermal Venture](https://adventofcode.com/2021/day/5) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/5/input) |
-| **Six** | [Lanternfish](https://adventofcode.com/2021/day/6) | ✅ | 💬 | [input.txt](https://adventofcode.com/2021/day/6/input) |
+| **Six** | [Lanternfish](https://adventofcode.com/2021/day/6) | ✅ | ✅ | [input.txt](https://adventofcode.com/2021/day/6/input) |
