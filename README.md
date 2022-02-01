@@ -17,4 +17,4 @@ Legend [^1][^2][^3]
 | **Four** | [Giant Squid](https://adventofcode.com/2021/day/4) | ✅ | ✅ | 
 | **Five** | [Hydrothermal Venture](https://adventofcode.com/2021/day/5) | ✅ | ✅ |
 | **Five** | [Lanternfish](https://adventofcode.com/2021/day/6) | ✅ | 🆘 |
-| **Seven** | [The Treachery of Whales](https://adventofcode.com/2021/day/7) | 💬 | | 
+| **Seven** | [The Treachery of Whales](https://adventofcode.com/2021/day/7) | ✅ | 💬 | 
