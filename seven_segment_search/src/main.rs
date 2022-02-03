@@ -1,6 +1,6 @@
 use std::fs;
-
-const UNIQUE_SEGMENT_LENGTHS: [usize; 4] = [2, 4, 3, 7];
+                                        //  1  7  4  8
+const UNIQUE_SEGMENT_LENGTHS: [usize; 4] = [2, 3, 4, 7];
 const FILE_PATH: &str = "input.txt";
 
 #[derive(Debug)]
