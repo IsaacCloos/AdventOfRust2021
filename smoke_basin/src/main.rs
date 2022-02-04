@@ -1,0 +1,7 @@
+struct HeightMap {
+    
+}
+
+fn main() {
+
+}
