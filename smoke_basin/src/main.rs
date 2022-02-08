@@ -1,4 +1,4 @@
-use std::{fs, cell};
+use std::{collections::HashSet, fs};
 
 const FILE_PATH: &str = "heightmap_test.txt";
 
@@ -27,7 +27,7 @@ fn main() {
 
 fn get_regions(map: &HeightMap) -> Option<Vec<i32>> {
     let mut basin_segments = Vec::<Vec<(Vec<(&u32, usize)>, bool)>>::new();
-    let mut basin_segment_totals = Vec::<_>::new();
+    let mut basin_segment_sizes = Vec::<(usize, (usize, HashSet<usize>))>::new();
 
     for row in map.into_iter() {
         let row_iterator = row
@@ -35,64 +35,86 @@ fn get_regions(map: &HeightMap) -> Option<Vec<i32>> {
             .enumerate()
             .map(|(i, x)| (x, i))
             .collect::<Vec<(_, _)>>();
+
         let row_segments = row_iterator
             .split(|number| *number.0 == 9)
             .map(|x| x.to_owned())
             .filter(|elm| elm.len() > 0)
-            .collect::<Vec<_>>();
+            .collect::<Vec<_>>()
+            .into_iter()
+            .map(|x| (x, false))
+            .collect::<_>();
 
-            basin_segments.push(row_segments);
+        basin_segments.push(row_segments);
     }
 
-    for (i, row) in basin_segments.iter().enumerate() {
-        for segment in row {
-            let mut basin_size = 0;
-            basin_size += segment.len();
+    // get each row and index
+    for (i, row) in basin_segments.into_iter().enumerate() {
+        // get each segment of row
+        for mut segment in row {
+            // if row has been integrated skip it
+            if segment.1 {
+                continue;
+            }
 
-            for cell in segment.iter() {
-                'next_segment: for next_segment in basin_segments[i + 1].iter() {
-                    for next_cell in next_segment {
-                        if cell.1 == next_cell.1 {
-                            basin_size += next_segment.len();
-                            continue 'next_segment;
+            // initialize set of indexes for segment
+            let mut index_set = HashSet::<usize>::new();
+
+            // load segment indexes
+            for cell in segment.0.iter() {
+                index_set.insert(cell.1);
+            }
+
+            // pre integration
+            let mut match_found = false;
+            let mut matched_index = 0;
+
+
+            // integration check
+
+            // for all segments collected already
+            'integration_loop: for (i1, collected_segments) in
+                basin_segment_sizes.iter_mut().enumerate()
+            {
+                // 0 is y axis
+                let previous_segment = &mut collected_segments.1;
+
+                // hashset of indexes on y axis
+                let previous_indexes = &mut previous_segment.1;
+
+                for index in index_set.iter() {
+                    for previous_index in previous_indexes.iter() {
+                        if index == previous_index && previous_segment.0 as i32 == (i as i32 - 1 as i32) {
+                            match_found = true;
+                            matched_index = i1;
+                            break 'integration_loop;
                         }
                     }
                 }
+
+            }
+            
+
+            // apply and mark segment as completed
+            if match_found {
+                let matched_basin = basin_segment_sizes.get_mut(matched_index).unwrap();
+                matched_basin.0 += segment.0.len();
+                
+                let matched_basin_definition = &mut matched_basin.1;
+                matched_basin_definition.0 = i;
+                matched_basin_definition.1 = index_set;
+            } else {
+                basin_segment_sizes.push((segment.0.len(), (i, index_set)));
             }
 
-            basin_segment_totals.push(basin_size);
+            // mark segment as integrated
+            segment.1 = true;
         }
-        print!("\n")
     }
 
-    println!("{basin_segment_totals:?}");
+    println!("{basin_segment_sizes:?}");
 
     None
-}
-
-fn check_adjacent_locations(map: &HeightMap, cell: Cell) -> Option<u32> {
-    let cell_value = map[cell.y][cell.x];
-    let length = map[0].len() - 1;
-    let height = map.len() - 1;
-    let x_range = match cell.x {
-        0 => (cell.x, cell.x + 1),
-        _ if cell.x == length => (cell.x - 1, cell.x),
-        _ => (cell.x - 1, cell.x + 1),
-    };
-    let y_range = match cell.y {
-        0 => (cell.y, cell.y + 1),
-        _ if cell.y == height => (cell.y - 1, cell.y),
-        _ => (cell.y - 1, cell.y + 1),
-    };
-    for y in y_range.0..=y_range.1 {
-        for x in x_range.0..=x_range.1 {
-            let target_cell = map[y][x];
-            if target_cell <= cell_value && target_cell != cell_value {
-                return None;
-            }
-        }
-    }
-    Some(1 + cell_value)
 }
 
 fn get_heightmap_from_file(file_path: &str) -> HeightMap {
