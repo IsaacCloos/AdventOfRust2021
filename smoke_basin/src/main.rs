@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, cell};
 
 const FILE_PATH: &str = "heightmap_test.txt";
 
@@ -26,39 +26,46 @@ fn main() {
 }
 
 fn get_regions(map: &HeightMap) -> Option<Vec<i32>> {
-    let mut basin_edges = Vec::<Cell>::new();
-    let mut basin_edge_groups = Vec::<Vec<Cell>>::new();
-    let length = map[0].len();
-    let height = map.len();
-    for y in 0..map.len() {
-        for x in 0..map[0].len() {
-            let cell = Cell { x, y };
-            let cell_value = map.get_cell_value(&cell);
-            if cell_value == 9 {
-                basin_edges.push(cell);
-            }
-        }
-    }
+    let mut basin_segments = Vec::<Vec<(Vec<(&u32, usize)>, bool)>>::new();
+    let mut basin_segment_totals = Vec::<_>::new();
 
-    // println!(
-    //     "{}/{}\n#####################################\n{basin_edges:?}",
-    //     basin_edges.len(),
-    //     length * height
-    // );
-
-    for row in map.iter() {
+    for row in map.into_iter() {
         let row_iterator = row
             .iter()
             .enumerate()
             .map(|(i, x)| (x, i))
             .collect::<Vec<(_, _)>>();
-        let basin_segments = row_iterator
+        let row_segments = row_iterator
             .split(|number| *number.0 == 9)
+            .map(|x| x.to_owned())
             .filter(|elm| elm.len() > 0)
             .collect::<Vec<_>>();
 
-        println!("{:?}", basin_segments);
+            basin_segments.push(row_segments);
     }
+
+    for (i, row) in basin_segments.iter().enumerate() {
+        for segment in row {
+            let mut basin_size = 0;
+            basin_size += segment.len();
+
+            for cell in segment.iter() {
+                'next_segment: for next_segment in basin_segments[i + 1].iter() {
+                    for next_cell in next_segment {
+                        if cell.1 == next_cell.1 {
+                            basin_size += next_segment.len();
+                            continue 'next_segment;
+                        }
+                    }
+                }
+            }
+
+            basin_segment_totals.push(basin_size);
+        }
+        print!("\n")
+    }
+
+    println!("{basin_segment_totals:?}");
 
     None
 }
