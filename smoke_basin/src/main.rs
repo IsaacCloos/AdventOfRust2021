@@ -73,7 +73,7 @@ fn get_regions(map: &HeightMap) -> Option<Vec<i32>> {
             // integration check
 
             // for all segments collected already
-            'integration_loop: for (i1, collected_segments) in
+            for (i1, collected_segments) in
                 basin_segment_sizes.iter_mut().enumerate()
             {
                 // 0 is y axis
@@ -87,7 +87,6 @@ fn get_regions(map: &HeightMap) -> Option<Vec<i32>> {
                         if index == previous_index && previous_segment.0 as i32 == (i as i32 - 1 as i32) {
                             match_found = true;
                             matched_index = i1;
-                            break 'integration_loop;
                         }
                     }
                 }
