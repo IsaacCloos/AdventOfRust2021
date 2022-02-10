@@ -1,8 +1,10 @@
-use std::{collections::HashSet, fs};
+use std::fs;
 
 const FILE_PATH: &str = "heightmap.txt";
 
 type HeightMap = Vec<Vec<u32>>;
+
+type SegmentRow = Vec<Vec<(usize, usize)>>;
 
 trait MapExtensions {
     fn get_cell_value(&self, point: &Cell) -> u32;
@@ -26,14 +28,18 @@ fn main() {
 
     // 750975 is too low
 
-    // println!("{result}")
+    // 7010262 is too high
+
+    // 1017792 YES!!
+
+    println!("{result}")
 }
 
 fn get_regions(map: &HeightMap) -> usize {
-    let mut basin_segments = Vec::<Vec<(Vec<(&u32, usize)>, bool)>>::new();
-    let mut basin_segment_sizes = Vec::<(usize, Vec<(usize, HashSet<usize>)>)>::new();
+    let mut segment_rows = Vec::<SegmentRow>::new();
 
-    for row in map.into_iter() {
+    // load segments
+    for (row_index, row) in map.into_iter().enumerate() {
         let row_iterator = row
             .iter()
             .enumerate()
@@ -42,86 +48,102 @@ fn get_regions(map: &HeightMap) -> usize {
 
         let row_segments = row_iterator
             .split(|number| *number.0 == 9)
-            .map(|x| x.to_owned())
+            .map(|x| {
+                x.iter()
+                    .map(|(_a, b)| (row_index, *b))
+                    .collect::<Vec<(_, _)>>()
+            })
             .filter(|elm| elm.len() > 0)
-            .collect::<Vec<_>>()
-            .into_iter()
-            .map(|x| (x, false))
-            .collect::<_>();
+            .collect::<Vec<_>>();
 
-        basin_segments.push(row_segments);
+        segment_rows.push(row_segments);
     }
 
-    // get each row and index
-    for (i, row) in basin_segments.into_iter().enumerate() {
-        // get each segment of row
-        for mut segment in row {
-            // if row has been integrated skip it
-            if segment.1 {
-                continue;
-            }
+    // debugging block
+    // for (i, segment_row) in segment_rows.iter().enumerate() {
+    //     for segment in segment_row {
+    //         print!("{segment:?}")
+    //     }
+    //     print!("\n")
+    // }
 
-            // initialize set of indexes for segment
-            let mut index_set = HashSet::<usize>::new();
+    let mut reduced_output = segment_rows.into_iter().reduce(connect_segments).unwrap();
 
-            // load segment indexes
-            for cell in segment.0.iter() {
-                index_set.insert(cell.1);
-            }
+    // println!("###################################");
+    // println!("reduced set");
+    // // println!("{reduced_output:?}");
+    // for x in reduced_output.iter() {
+    //     print!("{} ", x.len());
+    //     println!("{x:?}")
+    // }
 
-            // pre integration
-            let mut match_found = false;
-            let mut matched_index = 0;
+    reduced_output.sort_by(|a, b| a.len().cmp(&b.len()).reverse());
+    reduced_output[..3].iter().map(|x| x.len()).reduce(|a, b| a * b).unwrap()
+}
 
-            // integration check
+fn connect_segments(
+    mut segment_row_current: SegmentRow,
+    segment_row_next: SegmentRow,
+) -> SegmentRow {
+    // for each segment of next row
+    for next_segment in segment_row_next.iter() {
+        let mut matched_segment_indicies = Vec::<usize>::new();
 
-            // for all segments collected already
-            for (i1, collected_segments) in basin_segment_sizes.iter_mut().enumerate() {
-                // 0 is y axis
-                let previous_segments = &mut collected_segments.1;
-
-                for index in index_set.iter() {
-                    for previous_segment in previous_segments.iter_mut() {
-                        for previous_index in previous_segment.1.iter() {
-                            if index == previous_index
-                                && previous_segment.0 as i32 == (i as i32 - 1 as i32)
-                            {
-                                match_found = true;
-                                matched_index = i1;
-                            }
+        // for each cell of next segment
+        for next_cell in next_segment {
+            // check each collected segment
+            for (current_index, current_segment) in segment_row_current.iter().enumerate() {
+                // check each cell of each collected segment
+                for current_cell in current_segment {
+                    if current_cell.1 == next_cell.1 && current_cell.0 == (next_cell.0 - 1) {
+                        if !matched_segment_indicies.contains(&current_index) {
+                            matched_segment_indicies.push(current_index);
                         }
                     }
                 }
             }
+        }
 
-            // apply and mark segment as completed
-            if match_found {
-                let matched_basin = basin_segment_sizes.get_mut(matched_index).unwrap();
-                matched_basin.0 += segment.0.len();
-
-                let matched_basin_definition = &mut matched_basin.1;
-                matched_basin_definition.push((i, index_set));
-            } else {
-                basin_segment_sizes.push((segment.0.len(), Vec::from([(i, index_set)])));
+        match matched_segment_indicies.len() {
+            // add new segment to reducing list
+            0 => {
+                segment_row_current.push(next_segment.clone());
             }
+            // merge new segment with existing segment in collected list
+            1 => {
+                let connected_segment_index = *matched_segment_indicies.iter().next().unwrap();
 
-            // mark segment as integrated
-            segment.1 = true;
+                let current_connected_segment = segment_row_current
+                    .get_mut(connected_segment_index)
+                    .unwrap();
+
+                for x in next_segment {
+                    current_connected_segment.push(*x);
+                }
+            }
+            // merge several segments together from previous rows of the map
+            _ => {
+                let mut new_merged_segment = Vec::<_>::new();
+                matched_segment_indicies.sort();
+                // println!("{matched_segment_indicies:?}");
+                for matched_segment_index in matched_segment_indicies.into_iter().rev() {
+                    let current_connected_segment = segment_row_current.remove(matched_segment_index);
+
+                    for connected_segment_cell in current_connected_segment {
+                        new_merged_segment.push(connected_segment_cell);
+                    }
+                }
+
+                for next_segment_cell in next_segment {
+                    new_merged_segment.push(*next_segment_cell)
+                }
+
+                segment_row_current.push(new_merged_segment);
+            }
         }
     }
 
-    basin_segment_sizes.sort_by(|a, b| b.0.cmp(&a.0));
-
-    let mut result: usize = 1;
-
-    for defined_segment in &basin_segment_sizes {
-        if defined_segment.0 == 1 {
-            println!("{:?}", defined_segment);
-        }
-        // result *= defined_segment.0;
-    }
-
-    result
+    segment_row_current
 }
 
 fn get_heightmap_from_file(file_path: &str) -> HeightMap {
