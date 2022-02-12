@@ -20,4 +20,4 @@ Legend [^1][^2][^3]
 | **Seven** | [The Treachery of Whales](https://adventofcode.com/2021/day/7) | ✅ | ✅ | 
 | **Eight** | [Seven Segment Search](https://adventofcode.com/2021/day/8) | ✅ | ✅ | 
 | **Nine** | [Smoke Basin](https://adventofcode.com/2021/day/9) | ✅ | ✅ | 
-| **Ten** | [Syntax Scoring](https://adventofcode.com/2021/day/10) | 💬 |  | 
+| **Ten** | [Syntax Scoring](https://adventofcode.com/2021/day/10) | ✅ | ✅ | 
