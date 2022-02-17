@@ -2,7 +2,8 @@ use std::{fmt::Display, fs};
 
 pub struct CaveMap {
     pub cave_connections: Vec<CaveConnection>,
-    pub path_options: Vec<Vec<String>>
+    pub path_options: Vec<Vec<String>>,
+    pub small_caves_visited_twice: Vec<String>
 }
 
 impl From<&str> for CaveMap {
@@ -20,7 +21,8 @@ impl From<&str> for CaveMap {
 
         CaveMap {
             cave_connections: connections,
-            path_options: vec![]
+            path_options: vec![],
+            small_caves_visited_twice: vec!["start".to_string(), "end".to_string()]
         }
     }
 }
@@ -67,7 +69,7 @@ impl CaveDiver {
         }
     }
 
-    fn what_are_my_options(&self, cave_map: &CaveMap) -> Vec<String> {
+    fn what_are_my_options(&self, cave_map: &mut CaveMap) -> Vec<String> {
         cave_map
             .cave_connections
             .iter()
@@ -84,6 +86,10 @@ impl CaveDiver {
                 if !self.path.contains(&found_string) || found_string.to_uppercase() == found_string {
                     found_string
                 } else {
+                    if self.path.contains(&found_string) && found_string.to_lowercase() == found_string && !cave_map.small_caves_visited_twice.contains(&found_string) {
+                        cave_map.small_caves_visited_twice.push(found_string.clone());
+                        return found_string
+                    }
                     String::new()
                 }
             })
