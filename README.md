@@ -22,3 +22,4 @@ Legend [^1][^2][^3]
 | **Nine** | [Smoke Basin](https://adventofcode.com/2021/day/9) | ✅ | ✅ | 
 | **Ten** | [Syntax Scoring](https://adventofcode.com/2021/day/10) | ✅ | ✅ | 
 | **Eleven** | [Dumbo Octopus](https://adventofcode.com/2021/day/11) | ✅ | ✅ | 
+| **Twelve** | [Passage Pathing](https://adventofcode.com/2021/day/12) | ✅ | 💬 | 
