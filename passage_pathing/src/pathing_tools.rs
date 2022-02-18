@@ -2,8 +2,7 @@ use std::{fmt::Display, fs};
 
 pub struct CaveMap {
     pub cave_connections: Vec<CaveConnection>,
-    pub path_options: Vec<Vec<String>>,
-    pub small_caves_visited_twice: Vec<String>
+    pub path_options: Vec<Vec<String>>
 }
 
 impl From<&str> for CaveMap {
@@ -22,7 +21,6 @@ impl From<&str> for CaveMap {
         CaveMap {
             cave_connections: connections,
             path_options: vec![],
-            small_caves_visited_twice: vec!["start".to_string(), "end".to_string()]
         }
     }
 }
@@ -42,6 +40,7 @@ impl Display for CaveConnection {
 pub struct CaveDiver {
     pub position: String,
     pub path: Vec<String>,
+    pub visited_small_cave_twice: bool
 }
 
 impl CaveDiver {
@@ -50,6 +49,7 @@ impl CaveDiver {
         CaveDiver {
             position: "start".to_string(),
             path: vec!["start".to_string()],
+            visited_small_cave_twice: false
         }
     }
 
@@ -59,6 +59,9 @@ impl CaveDiver {
         if options.len() > 0 {
             for option in options {
                 let cave_diver = &mut self.clone();
+                if cave_diver.path.contains(option) && !cave_diver.visited_small_cave_twice && &option.to_lowercase() == option {
+                    cave_diver.visited_small_cave_twice = true;
+                }
                 cave_diver.position = option.to_string();
                 cave_diver.path.push(option.to_string());
                 cave_diver.scan(cave_map);
@@ -85,11 +88,9 @@ impl CaveDiver {
                 }
                 if !self.path.contains(&found_string) || found_string.to_uppercase() == found_string {
                     found_string
+                } else if self.path.contains(&found_string) && !self.visited_small_cave_twice && found_string != "start" && found_string != "end" {
+                    found_string
                 } else {
-                    if self.path.contains(&found_string) && found_string.to_lowercase() == found_string && !cave_map.small_caves_visited_twice.contains(&found_string) {
-                        cave_map.small_caves_visited_twice.push(found_string.clone());
-                        return found_string
-                    }
                     String::new()
                 }
             })
@@ -113,6 +114,7 @@ impl From<&str> for CaveDiver {
         CaveDiver {
             position: start.to_string(),
             path: vec![start.to_string()],
+            visited_small_cave_twice: false
         }
     }
 }

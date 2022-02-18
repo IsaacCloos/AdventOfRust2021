@@ -3,8 +3,8 @@ use pathing_tools::{CaveMap, CaveDiver};
 
 /*
 input_test results
-PART 1: 10
-PART 2: 36
+    PART 1: 10
+    PART 2: 36
 */
 
 const INPUT_PATH: &str = "input_test.txt";
@@ -20,6 +20,5 @@ fn main() {
     }
 
     println!("###");
-    println!("{:?}", cave_map.small_caves_visited_twice);
     println!("{}", cave_map.path_options.len());
 }
