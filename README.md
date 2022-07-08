@@ -1,7 +1,7 @@
 # AdventOfRust2021
 [Advent of Code 2021](https://adventofcode.com/2021/) with Rust solutions. Learning Rust!
 
-Legend [^1][^2][^3]
+## Progress [^1][^2][^3]
 
 [^1]: ✅ = accepted
 [^2]: 💬 = in progress
