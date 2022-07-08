@@ -1,15 +1,13 @@
 # AdventOfRust2021
 [Advent of Code 2021](https://adventofcode.com/2021/) with Rust solutions. Learning Rust!
 
-> rustc --version
-
 Legend [^1][^2][^3]
 
 [^1]: ✅ = accepted
 [^2]: 💬 = in progress
 [^3]: 🆘 = accepted with advice
 
-| Day | Title | Part 1 | Part 2 | Version |
+| Day | Title | Part 1 | Part 2 | `rustc --version` |
 | :- | :- | :-: | :-: | -: |
 | **One** | [Sonar Sweep](https://adventofcode.com/2021/day/1) | ✅ | ✅ | 1.58.0 |
 | **Two** | [Dive!](https://adventofcode.com/2021/day/2) | ✅ | ✅ | 
